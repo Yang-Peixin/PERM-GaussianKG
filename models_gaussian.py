@@ -221,8 +221,9 @@ class KGReasoning(nn.Module):
                 b=self.embedding_range.item()
             )  # 偏差 a b 之间的均匀分布
             self.projection_regularizer = Regularizer(1, 0.05, 1e9)
-            self.center_net = CenterIntersection(self.entity_dim, self.projection_regularizer)  # 定义center网络
-            self.offset_net = GaussianOffsetIntersection(self.entity_dim)  # 定义 offset 网络
+            # todo: net 中乘以 rank
+            self.center_net = CenterIntersection(self.entity_dim * self.rank, self.projection_regularizer)  # 定义center网络
+            self.offset_net = GaussianOffsetIntersection(self.entity_dim * self.rank)  # 定义 offset 网络
         elif self.geo == 'vec':
             self.center_net = CenterIntersection(self.entity_dim)
         elif self.geo == 'beta':
@@ -520,6 +521,8 @@ class KGReasoning(nn.Module):
                                                                          query_structure),
                                               self.transform_union_structure(query_structure),
                                               0)
+                if center_embedding.ndim == 1 or offset_embedding.ndim == 1:
+                    continue
                 all_union_center_embeddings.append(center_embedding)
                 all_union_offset_embeddings.append(offset_embedding)
                 all_union_idxs.extend(batch_idxs_dict[query_structure])  # 添加并集
@@ -527,6 +530,8 @@ class KGReasoning(nn.Module):
                 center_embedding, offset_embedding, _ = self.embed_query_gaussian(batch_queries_dict[query_structure],
                                                                                   query_structure,
                                                                                   0)
+                if center_embedding.ndim == 1 or offset_embedding.ndim == 1:
+                    continue
                 all_center_embeddings.append(center_embedding)
                 all_offset_embeddings.append(offset_embedding)
                 all_idxs.extend(batch_idxs_dict[query_structure])

@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python main_gaussian.py --cuda --do_train --do_valid --do_test   --data_path data/KG_data/NELL-betae -n 128 -b 15 -d 40 -g 24  -lr 0.0001 --max_steps 200001 --cpu_num 4 --geo gaussian --valid_steps 15000   -gaussianm "(none,0.02)" --tasks "1p.2p.3p.2i.3i.ip.pi.2u.up"

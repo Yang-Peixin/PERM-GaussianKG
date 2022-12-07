@@ -3,3 +3,4 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python main_gaussian.py --cuda --do_train --do_vali
 CUDA_VISIBLE_DEVICES=0,1,2,3 python main_gaussian.py --cuda --do_train --do_valid --do_test   --data_path data/DRKG -n 128 -b 512 -d 400 -g 24   -lr 0.0001 --max_steps 200001 --cpu_num 4 --geo gaussian --valid_steps 15000   -gaussianm "(none,0.02)" --tasks "1p.2p.3p.2i.3i.ip.pi.2u.up"
 CUDA_VISIBLE_DEVICES=0,1,2,3 python main_gaussian.py --cuda --do_train --do_valid --do_test   --data_path data/DBPedia -n 128 -b 512 -d 400 -g 24   -lr 0.0001 --max_steps 200001 --cpu_num 4 --geo gaussian --valid_steps 15000   -gaussianm "(none,0.02)" --tasks "1p.2p.3p.2i.3i.ip.pi.2u.up"
 
+# 默认，学习率lr 0.0001，每次训练查询的批量b 512，每个查询抽样的负实体数目n 128，隐藏层 嵌入的纬度 d 400，gamma 损失的边界 g 24
