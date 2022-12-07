@@ -98,7 +98,7 @@ def parse_args(args=None):
     return parser.parse_args(args)
 
 
-def save_model(model, optimizer, save_variable_list, args):
+def save_model(model, optimizer, save_variable_list, args, step):
     '''
     Save the parameters of the model and the optimizer,
     as well as some other variables such as step and learning_rate
@@ -115,7 +115,7 @@ def save_model(model, optimizer, save_variable_list, args):
     }
 
     torch.save(state_dict,
-               os.path.join(args.save_path, 'checkpoint'))
+               os.path.join(args.save_path, 'checkpoint' + str(step)))
 
 
 def set_logger(args):
@@ -399,6 +399,7 @@ def main(args):
         training_logs = []
         # #Training Loop
         for step in range(init_step, args.max_steps):
+            # print("step", step)
             if step == 2 * args.max_steps // 3:
                 args.valid_steps *= 4
 
@@ -428,7 +429,7 @@ def main(args):
                     'current_learning_rate': current_learning_rate,
                     'warm_up_steps': warm_up_steps
                 }
-                save_model(model, optimizer, save_variable_list, args)
+                save_model(model, optimizer, save_variable_list, args, step)
 
             if step % args.valid_steps == 0 and step > 0:
                 if args.do_valid:
@@ -454,7 +455,7 @@ def main(args):
             'current_learning_rate': current_learning_rate,
             'warm_up_steps': warm_up_steps
         }
-        save_model(model, optimizer, save_variable_list, args)
+        save_model(model, optimizer, save_variable_list, args, step)
 
     try:
         print(step)

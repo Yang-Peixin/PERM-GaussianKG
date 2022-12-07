@@ -44,3 +44,19 @@ dataloader.py - File to load data for the PERM models
 model_gaussian.py - File with the model definition for the PERM model and baselines
 main_gaussian.py - File to run the model for different experiments
 ```
+
+
+
+
+
+需要的包：torch==1.7 tensorboardX 
+
+ 
+
+如果需要使用与论文同级别的训练批量和嵌入维度，可能要和论文一样使用四张rtx8000显卡，运行run.sh，否则会显存OOM。本人没有条件，使用一张rtx2080ti，显存11GB，运行run_3.sh，该shell中减小了批量数目和维度。
+
+ 
+
+数据下载地址：http://snap.stanford.edu/betae/KG_data.zip 数据解压之后放到项目的data目录下，参照 data/KG_data/NELL-betae 这样的路径格式
+
+ 
